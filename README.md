@@ -50,68 +50,7 @@ Shown on Website
 Download
 
 Architecture : - 
-                         ┌─────────────────┐
-                         │      User       │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │ PureBG Website  │
-                         │ HTML/CSS/JS     │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │    Cognito      │
-                         │ Temporary       │
-                         │ Credentials    │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │   Input S3      │
-                         │     Bucket      │
-                         └────────┬────────┘
-                                  │
-                           New Image Event
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │  AWS Lambda     │
-                         │     PureBg      │
-                         │                 │
-                         │ rembg + u2netp  │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │  Output S3      │
-                         │     Bucket      │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │ Processed Image │
-                         │   White BG      │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │      User       │
-                         │ Preview/Download│
-                         └─────────────────┘
-
-
-              ┌─────────────────────────┐
-              │       Amazon ECR        │
-              │                         │
-              │ Lambda Docker Image     │
-              │ Python + rembg + u2netp │
-              └────────────┬────────────┘
-                           │
-                           ▼
-                     AWS Lambda
-
+                        
 
 ## Step-by-Step Working : - 
 
