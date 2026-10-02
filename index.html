@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PureBG — clean photo backgrounds in seconds.">
+  <title>PureBG — Clean Backgrounds</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="#">
+        <span class="brand-icon">P</span>
+        <span>Pure<span>BG</span></span>
+      </a>
+      <div class="privacy"><span></span> Simple. Clean. Private.</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">✦ Make every photo look cleaner</div>
+
+      <h1>Your photo.<br><em>Pure background.</em></h1>
+
+      <p class="subtitle">
+        Remove the distracting background and turn your image into a clean,
+        professional photo with one click.
+      </p>
+
+      <div class="upload-area" id="uploadArea">
+        <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+
+        <div class="upload-symbol">
+          <span>↑</span>
+        </div>
+
+        <h2>Drop your photo here</h2>
+        <p>or choose an image from your device</p>
+
+        <button class="choose-btn" id="chooseBtn">Choose photo</button>
+
+        <div class="hint">JPG · PNG · WEBP &nbsp; • &nbsp; Up to 10 MB</div>
+      </div>
+
+      <div class="selected hidden" id="selectedPanel">
+        <div class="selected-head">
+          <div>
+            <span class="label">YOUR PHOTO</span>
+            <h2 id="fileName">photo.jpg</h2>
+          </div>
+          <button class="close-btn" id="clearBtn" aria-label="Remove photo">×</button>
+        </div>
+
+        <div class="preview checker">
+          <img id="inputPreview" alt="Selected photo">
+        </div>
+
+        <div class="selected-bottom">
+          <span id="fileSize">0 KB</span>
+          <button class="process-btn" id="processBtn">Make it clean <b>→</b></button>
+        </div>
+      </div>
+
+      <div class="result hidden" id="resultPanel">
+        <div class="result-head">
+          <div>
+            <span class="label">READY</span>
+            <h2>Your clean photo</h2>
+          </div>
+          <span class="check">✓</span>
+        </div>
+
+        <div class="result-preview">
+          <img id="outputPreview" alt="Processed photo">
+          <div class="processing hidden" id="processing">
+            <div class="spinner"></div>
+            <strong>Making it clean…</strong>
+            <span>Just a moment</span>
+          </div>
+        </div>
+
+        <div class="result-buttons">
+          <button class="download-btn" id="downloadBtn">Download photo ↓</button>
+          <button class="again-btn" id="againBtn">Choose another</button>
+        </div>
+      </div>
+
+      <p class="microcopy">No complicated setup. Just upload your photo.</p>
+    </section>
+
+    <footer>
+      <span>PureBG</span>
+      <span>Beautiful photos, without the distraction.</span>
+    </footer>
+  </main>
+
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1481.0.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
