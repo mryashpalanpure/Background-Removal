@@ -96,7 +96,7 @@ processBtn.addEventListener("click", async () => {
   processing.classList.remove("hidden");
 
   try {
-    // Cognito se temporary credentials obtain karo
+    // Get temporary Cognito credentials
     await new Promise((resolve, reject) => {
       AWS.config.credentials.get(error => {
         if (error) {
@@ -107,10 +107,10 @@ processBtn.addEventListener("click", async () => {
       });
     });
 
-    // Unique filename
+    // Unique input filename
     const fileKey = `${Date.now()}-${selectedFile.name}`;
 
-    // S3 upload
+    // Upload to input bucket
     const params = {
       Bucket: INPUT_BUCKET,
       Key: fileKey,
@@ -118,24 +118,98 @@ processBtn.addEventListener("click", async () => {
       ContentType: selectedFile.type
     };
 
-    const result = await s3.upload(params).promise();
+    await s3.upload(params).promise();
 
-    console.log("Uploaded successfully:", result.Location);
+    console.log("Upload successful:", fileKey);
 
-    // Temporary testing:
-    outputUrl = previewUrl;
+    // Lambda output filename
+    const outputKey =
+      fileKey.substring(0, fileKey.lastIndexOf(".")) + ".png";
+
+    console.log("Waiting for output:", outputKey);
+
+    // Wait for Lambda to process image
+    await waitForOutput(outputKey);
+
+    // Get processed image from output bucket
+    const outputParams = {
+      Bucket: "output-images-palanpure",
+      Key: outputKey
+    };
+
+    const outputData = await s3.getObject(outputParams).promise();
+
+    // Convert S3 image bytes into browser image
+    const blob = new Blob(
+      [outputData.Body],
+      { type: "image/png" }
+    );
+
+    if (outputUrl) {
+      URL.revokeObjectURL(outputUrl);
+    }
+
+    outputUrl = URL.createObjectURL(blob);
+
     outputPreview.src = outputUrl;
 
     processing.classList.add("hidden");
 
+    console.log("Processed image displayed successfully.");
+
   } catch (error) {
-    console.error("Upload failed:", error);
+
+    console.error("Processing failed:", error);
 
     processing.classList.add("hidden");
 
-    alert("Image upload failed. Please try again.");
+    alert(
+      "Something went wrong while processing the image. Please try again."
+    );
   }
 });
+
+async function waitForOutput(outputKey) {
+
+  const maxAttempts = 60;
+  const delay = 2000;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+
+    try {
+
+      await s3.headObject({
+        Bucket: "output-images-palanpure",
+        Key: outputKey
+      }).promise();
+
+      console.log(
+        `Output found after ${attempt} attempt(s).`
+      );
+
+      return;
+
+    } catch (error) {
+
+      if (
+        error.code !== "NotFound" &&
+        error.statusCode !== 404
+      ) {
+        throw error;
+      }
+
+      console.log(
+        `Waiting for Lambda... attempt ${attempt}/${maxAttempts}`
+      );
+
+      await new Promise(resolve =>
+        setTimeout(resolve, delay)
+      );
+    }
+  }
+
+  throw new Error("Processing timeout.");
+}
 
 downloadBtn.addEventListener("click", () => {
   if (!outputUrl) return;
