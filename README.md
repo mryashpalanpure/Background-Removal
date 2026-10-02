@@ -1,4 +1,4 @@
-<img width="2967" height="1416" alt="diagram-export-10-2-2026-10_21_06-PM" src="https://github.com/user-attachments/assets/0fb901c9-26d1-44c4-a05f-3c839d49d71f" /># PureBG 
+# PureBG 
 
 ### Remove image backgrounds and get a clean white background in seconds : - 
 
