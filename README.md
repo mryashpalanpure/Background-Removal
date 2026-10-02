@@ -72,7 +72,9 @@ Website
  ↓
 Cognito
  ↓
+
 Input S3 Bucket
+
 3. S3 Detects the New Image
 
 As soon as the image is uploaded, S3 detects that a new object has been created.
@@ -86,6 +88,7 @@ New Image
 S3 Event
    ↓
 Lambda
+
 4. Lambda Processes the Image
 
 The Lambda function downloads the image from the Input S3 Bucket.
@@ -110,6 +113,7 @@ Transparent Image
 Add White Background
       ↓
 Final PNG
+
 5. Processed Image is Stored
 
 After processing, Lambda uploads the final image to a separate Output S3 Bucket.
